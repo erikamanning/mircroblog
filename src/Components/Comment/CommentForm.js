@@ -1,17 +1,12 @@
 import React, {useState, useContext} from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { v4 as uuidv4 } from 'uuid';
-import { addComment } from '../reducers/actions'
+import { useDispatch } from "react-redux"
 import { PostContext } from '../Post/Post'
+import { addCommentWithAPI } from '../../actions/postCommentActions'
 
 const CommentForm = () => {
 
     const {postId} = useContext(PostContext);
     const dispatch = useDispatch();
-    const posts = useSelector(state=>state.posts);
-    const post = posts[postId];
-
-    console.log('post: ', post)
 
     const INITIAL_FORM_DATA = {
         text:''
@@ -30,10 +25,9 @@ const CommentForm = () => {
     const handleSubmit = (evt) => {
 
         evt.preventDefault();
-        console.log("Form Submitted");
         
         // add post to reducer
-        dispatch(addComment(postId,uuidv4(),formData));
+        dispatch(addCommentWithAPI(postId,formData.text));
 
         // clear form
         setFormData(INITIAL_FORM_DATA);

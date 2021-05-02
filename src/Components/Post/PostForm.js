@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { addPostWithAPI, updatePostWithAPI } from '../reducers/actions'
+import { addPostWithAPI, updatePostWithAPI } from '../../actions/postActions'
 import { useHistory, useParams } from 'react-router-dom'
 
 const PostForm = () => {
@@ -11,11 +11,9 @@ const PostForm = () => {
         body:'',
     };
     const {id} = useParams();
-    const posts = useSelector(state=>state.posts);
+    const posts = useSelector(state=>state.posts.posts);
     const post = posts[id];
 
-    console.log("Id: ", id);
-    console.log("post: ", post);
     const [formData, setFormData] = useState(id ? post : INITIAL_FORM_DATA);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -43,7 +41,7 @@ const PostForm = () => {
 
     return  <div className='container mt-5'>
 
-                <h1 className='text-left'>New Post</h1>
+                {post ? <h1 className='text-left'>Edit Post</h1> : <h1 className='text-left'>New Post</h1>}
                 <form onSubmit={handleSubmit} className='text-left'>
                     <div className="form-group">
                         <label htmlFor="title">Title:</label>

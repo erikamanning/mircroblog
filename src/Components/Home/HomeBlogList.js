@@ -1,16 +1,14 @@
 import React, {useEffect} from "react"
-import PostPreviewCard from '../Post/PostPreviewCard'
+import PostPreviewCard from '../../Components/Post/PostPreviewCard'
 import { v4 as uuidv4 } from 'uuid';
 import chunk from 'lodash.chunk'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPostsFromAPI } from '../reducers/actions'
+import { getPostsFromAPI } from '../../actions/postActions'
 
 const HomeBlogList = () => {
 
-    const posts = useSelector(state=>state.posts);
+    const posts = useSelector(state=>state.posts.posts);
     const dispatch = useDispatch();
-
-    console.log("Home blog list posts: ", posts);
 
     useEffect(()=>{
 
@@ -30,8 +28,6 @@ const HomeBlogList = () => {
     }
 
     const cards = makeCards();
-
-    // console.log("Posts: ", posts);
 
     return  <div className='mt-4'>
 

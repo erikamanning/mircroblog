@@ -1,4 +1,4 @@
-import { ADD_POST, DELETE_POST, UPDATE_POST, SAVE_POSTS, ADD_COMMENT, DELETE_COMMENT } from './actionTypes'
+import { ADD_POST, DELETE_POST, UPDATE_POST, SAVE_POSTS, UP_VOTE, DOWN_VOTE } from './actionTypes'
 import axios from "axios"
 
 export function getPostsFromAPI() {
@@ -41,9 +41,7 @@ export const addPost = (id,post) => {
 export function deletePostWithAPI(postId) {
     return async function(dispatch) {
       try{
-          console.log('deletePostWithAPI -- PostId: ',postId);
-        let res = await axios.delete(`http://localhost:5000/api/posts/${postId}`);
-        console.log("deletePostWithAPI -- POST RES FROM API: ", res);
+        await axios.delete(`http://localhost:5000/api/posts/${postId}`);
         // if(res.data.message==='deleted')
         dispatch(deletePost(postId));
       }
@@ -64,9 +62,7 @@ export const deletePost = (id) => {
 export function updatePostWithAPI(postId,postData) {
     return async function(dispatch) {
       try{
-          console.log('updatePostWithAPI -- PostId: ',postId);
-        let res = await axios.put(`http://localhost:5000/api/posts/${postId}`,{title: postData.title, description: postData.description, body: postData.body});
-        console.log("updatePostWithAPI -- POST RES FROM API: ", res);
+        await axios.put(`http://localhost:5000/api/posts/${postId}`,{title: postData.title, description: postData.description, body: postData.body});
         dispatch(updatePost(postId, postData));
       }
       catch(error){
@@ -82,20 +78,25 @@ export const updatePost = (id,post) => {
     }
 }
 
-export const addComment = (postId,commentId,comment) => {
 
-    return {
-        type:ADD_COMMENT,
-        payload: {postId,commentId,comment }
+export function voteOnPostWithAPI(postId,direction) {
+  return async function(dispatch) {
+    try{
+      await axios.post(`http://localhost:5000/api/posts/${postId}/vote/${direction}`);
+
+      const type = direction === 'up' ? UP_VOTE : DOWN_VOTE;
+
+      dispatch(voteOnPost(type,postId));
     }
+    catch(error){
+        console.log("ERROR: ",error);
+    }
+  };
 }
+export const voteOnPost = (type, postId) => {
 
-export const deleteComment = (postId, commentId) => {
-
-    console.log("del comment: post id: ", postId)
-
-    return {
-        type:DELETE_COMMENT,
-        payload: { postId,commentId }
-    }
+  return {
+      type,
+      payload: { postId }
+  }
 }

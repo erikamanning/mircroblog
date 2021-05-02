@@ -1,7 +1,7 @@
 import React, {useContext} from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { deleteComment } from '../reducers/actions'
+import { deleteCommentWithAPI } from '../../actions/postCommentActions'
 import { useDispatch } from 'react-redux'
 import { PostContext } from '../Post/Post'
 
@@ -12,7 +12,7 @@ const Comment = ({commentId, comment}) => {
 
     const removeComment = () => {
 
-        dispatch(deleteComment(postId, commentId));
+        dispatch(deleteCommentWithAPI(postId, commentId));
     }
 
     return  <div className='card mt-2 text-left p-3'>

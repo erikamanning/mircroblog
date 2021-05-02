@@ -1,14 +1,15 @@
-import React, {useState, useEffect} from "react"
+import React from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { useHistory, Link } from "react-router-dom"
-import { deletePostWithAPI } from "../reducers/actions"
+import { deletePostWithAPI } from "../../actions/postActions"
 import { useDispatch } from "react-redux"
 
 const PostContent = ({post}) => {
     
     const dispatch = useDispatch();
     const history = useHistory();
+
     const handleDelete = () =>{
 
         dispatch(deletePostWithAPI(post.id));
