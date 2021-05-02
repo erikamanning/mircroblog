@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 import { deletePostWithAPI } from "../reducers/actions"
 import { useDispatch } from "react-redux"
 
@@ -23,7 +23,7 @@ const PostContent = ({post}) => {
                         <p className='font-italic'>{post.description}</p>
                     </div>
                     <div className="col-2 text-right">
-                        <button onClick={handleDelete} className='btn text-primary'><FontAwesomeIcon icon={faEdit} /></button>
+                        <Link to={`/posts/${post.id}/edit`}><button className='btn text-primary'><FontAwesomeIcon icon={faEdit} /></button></Link>
                         <button onClick={handleDelete} className='btn text-danger'><FontAwesomeIcon icon={faTimes} /></button>
                     </div>
                 </div>

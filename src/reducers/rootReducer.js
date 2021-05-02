@@ -1,5 +1,5 @@
 // import { ADD_POST, DELETE_POST, UPDATE_POST, SAVE_POSTS, ADD_COMMENT, DELETE_COMMENT } from './actionTypes'
-import { ADD_POST, DELETE_POST, SAVE_POSTS  } from './actionTypes'
+import { ADD_POST, DELETE_POST, UPDATE_POST, SAVE_POSTS  } from './actionTypes'
 
 const INITIAL_POSTS = {posts:{}};
 
@@ -15,11 +15,10 @@ const rootReducer = (state=INITIAL_POSTS, action) =>{
             delete newPosts[action.payload.id];
             return {...state, posts:newPosts};;
 
-
-        // case UPDATE_POST:
-        //     const updatedPosts = state.posts;
-        //     updatedPosts[action.payload.id] = action.payload.post;
-        //     return {...state, posts:updatedPosts};
+        case UPDATE_POST:
+            const updatedPosts = {...state.posts};
+            updatedPosts[action.payload.id] = action.payload.post;
+            return {...state, posts:updatedPosts};
 
         case SAVE_POSTS:
             return {...state, posts:action.payload.posts};

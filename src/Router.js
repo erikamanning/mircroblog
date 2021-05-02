@@ -15,7 +15,10 @@ const Router = () => {
                 <Route exact path='/new'>
                     <PostForm/>
                 </Route>
-                <Route exact path='/post/:id'>
+                <Route exact path='/posts/:id/edit'>
+                    <PostForm/>
+                </Route>
+                <Route exact path='/posts/:id'>
                     <Post/>
                 </Route>
                 <Route exact path='/'>

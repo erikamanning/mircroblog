@@ -1,7 +1,7 @@
 import React, {useState} from "react"
-import { useDispatch } from "react-redux"
-import { addPostWithAPI } from '../reducers/actions'
-import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux"
+import { addPostWithAPI, updatePostWithAPI } from '../reducers/actions'
+import { useHistory, useParams } from 'react-router-dom'
 
 const PostForm = () => {
 
@@ -10,8 +10,13 @@ const PostForm = () => {
         description:'',
         body:'',
     };
+    const {id} = useParams();
+    const posts = useSelector(state=>state.posts);
+    const post = posts[id];
 
-    const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+    console.log("Id: ", id);
+    console.log("post: ", post);
+    const [formData, setFormData] = useState(id ? post : INITIAL_FORM_DATA);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -28,7 +33,7 @@ const PostForm = () => {
 
         evt.preventDefault();
 
-        dispatch(addPostWithAPI(formData));
+        id ? dispatch(updatePostWithAPI(id,formData)) : dispatch(addPostWithAPI(formData));
 
         // clear form
         setFormData(fd=>INITIAL_FORM_DATA);

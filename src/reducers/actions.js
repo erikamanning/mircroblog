@@ -61,6 +61,19 @@ export const deletePost = (id) => {
     }
 }
 
+export function updatePostWithAPI(postId,postData) {
+    return async function(dispatch) {
+      try{
+          console.log('updatePostWithAPI -- PostId: ',postId);
+        let res = await axios.put(`http://localhost:5000/api/posts/${postId}`,{title: postData.title, description: postData.description, body: postData.body});
+        console.log("updatePostWithAPI -- POST RES FROM API: ", res);
+        dispatch(updatePost(postId, postData));
+      }
+      catch(error){
+          console.log("ERROR: ",error);
+      }
+    };
+}
 export const updatePost = (id,post) => {
 
     return {
