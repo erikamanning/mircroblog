@@ -10,6 +10,8 @@ const HomeBlogList = () => {
     const posts = useSelector(state=>state.posts);
     const dispatch = useDispatch();
 
+    console.log("Home blog list posts: ", posts);
+
     useEffect(()=>{
 
         dispatch(getPostsFromAPI());
@@ -29,7 +31,7 @@ const HomeBlogList = () => {
 
     const cards = makeCards();
 
-    console.log("Posts: ", posts);
+    // console.log("Posts: ", posts);
 
     return  <div className='mt-4'>
 

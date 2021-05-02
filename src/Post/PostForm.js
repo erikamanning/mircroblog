@@ -1,14 +1,9 @@
 import React, {useState} from "react"
-import { v4 as uuidv4 } from 'uuid';
 import { useDispatch } from "react-redux"
 import { addPostWithAPI } from '../reducers/actions'
 import { useHistory } from 'react-router-dom'
-import { useEffect } from "react";
 
 const PostForm = () => {
-
-    const dispatch = useDispatch();
-    const history = useHistory();
 
     const INITIAL_FORM_DATA = {
         title:'',
@@ -17,17 +12,8 @@ const PostForm = () => {
     };
 
     const [formData, setFormData] = useState(INITIAL_FORM_DATA);
-    const [formSubmitted, setFormSubmitted] = useState(false);
-
-    console.log('formsubmitted: ', formSubmitted);
-
-    useEffect(()=>{
-
-        dispatch(addPostWithAPI(formData));
-        setFormData(fd=>INITIAL_FORM_DATA);
-
-        return ()=>{history.push('/')}
-    },[dispatch,formSubmitted]);
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleChange = (evt) => {
 
@@ -41,15 +27,13 @@ const PostForm = () => {
     const handleSubmit = (evt) => {
 
         evt.preventDefault();
-        console.log("Form Submitted");
-        
-        // add post to reducer
-        // isokay?
-        setFormSubmitted(fs=>!fs);
-        console.log("Form data!", formData);
+
+        dispatch(addPostWithAPI(formData));
 
         // clear form
-        // history.push('/')
+        setFormData(fd=>INITIAL_FORM_DATA);
+
+        history.push('/');
     }
 
     return  <div className='container mt-5'>
@@ -58,15 +42,15 @@ const PostForm = () => {
                 <form onSubmit={handleSubmit} className='text-left'>
                     <div className="form-group">
                         <label htmlFor="title">Title:</label>
-                        <input value={formData.title} name='title' onChange={handleChange}type="text" className="form-control" id="title" aria-describedby="title" placeholder=""/>
+                        <input value={formData.title} name='title' onChange={handleChange}type="text" className="form-control" id="title" aria-describedby="title" placeholder="" required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="description">Description:</label>
-                        <input value={formData.description} name='description' onChange={handleChange}type="text" className="form-control" id="description" aria-describedby="description" placeholder=""/>
+                        <input value={formData.description} name='description' onChange={handleChange}type="text" className="form-control" id="description" aria-describedby="description" placeholder="" required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="title">Body:</label>
-                        <textarea value={formData.body} onChange={handleChange}className="form-control" name="body" id="body" cols="30" rows="10"></textarea>
+                        <textarea value={formData.body} onChange={handleChange}className="form-control" name="body" id="body" cols="30" rows="10" required></textarea>
                     </div>
                     <div>
                         <button type="submit" className="btn btn-primary">Save</button>

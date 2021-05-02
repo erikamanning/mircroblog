@@ -1,23 +1,20 @@
-import data from '../data.json'
-import { ADD_POST, DELETE_POST, UPDATE_POST, SAVE_POSTS, ADD_COMMENT, DELETE_COMMENT } from './actionTypes'
-// const INITIAL_POSTS = {posts:data.posts};
+// import { ADD_POST, DELETE_POST, UPDATE_POST, SAVE_POSTS, ADD_COMMENT, DELETE_COMMENT } from './actionTypes'
+import { ADD_POST, DELETE_POST, SAVE_POSTS  } from './actionTypes'
+
 const INITIAL_POSTS = {posts:{}};
 
 const rootReducer = (state=INITIAL_POSTS, action) =>{
 
     switch(action.type){
 
-        // case ADD_POST:
-        //     const nPost = {[action.payload.id]:action.payload.post};
-        //     console.log("New Post: ",nPost);
-        //     const mehState =  {...state, posts:{...state.posts, [action.payload.id]:action.payload.post}};
-        //     console.log("mehState: ",mehState);
-        //     return mehState;
+        case ADD_POST:
+            return {...state, posts:{...state.posts, [action.payload.id]:action.payload.post}};
         
-        // case DELETE_POST:
-        //     const newPosts = state.posts;
-        //     delete newPosts[action.payload.id];
-        //     return {...state, posts:newPosts};
+        case DELETE_POST:
+            const newPosts = {...state.posts};
+            delete newPosts[action.payload.id];
+            return {...state, posts:newPosts};;
+
 
         // case UPDATE_POST:
         //     const updatedPosts = state.posts;
@@ -25,7 +22,6 @@ const rootReducer = (state=INITIAL_POSTS, action) =>{
         //     return {...state, posts:updatedPosts};
 
         case SAVE_POSTS:
-            console.log("action.payload.posts",action.payload.posts)
             return {...state, posts:action.payload.posts};
 
         // case ADD_COMMENT:

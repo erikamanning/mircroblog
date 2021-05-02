@@ -4,14 +4,11 @@ import axios from "axios"
 export function getPostsFromAPI() {
     return async function(dispatch) {
       let res = await axios.get('http://localhost:5000/api/posts');
-      console.log("RES FROM API: ", res);
 
       const posts = {}
         for(let post in res.data){
-            console.log('a post: ',res.data[post])
             posts[res.data[post]['id']]={...res.data[post]};
         }
-        console.log('COPIED POSTS: ',posts);
 
       dispatch(savePosts(posts));
     };
@@ -24,27 +21,16 @@ function savePosts(posts) {
 export function addPostWithAPI(data) {
     return async function(dispatch) {
       try{
-          console.log('DATAAAAAAAA: ',data);
         let res = await axios.post('http://localhost:5000/api/posts',{title:data.title,description:data.description,body:data.body});
-        console.log("POST RES FROM API: ", res)
-
-
-        
-
-
-        // dispatch(addPost(res.data));
+        dispatch(addPost(res.data.id,res.data));
       }
       catch(error){
           console.log("ERROR: ",error);
       }
     };
 }
-  
-
 
 export const addPost = (id,post) => {
-
-    console.log("****Post: ", post);
 
     return {
         type:ADD_POST,
@@ -52,11 +38,26 @@ export const addPost = (id,post) => {
     }
 }
 
-export const deletePost = (id,post) => {
+export function deletePostWithAPI(postId) {
+    return async function(dispatch) {
+      try{
+          console.log('deletePostWithAPI -- PostId: ',postId);
+        let res = await axios.delete(`http://localhost:5000/api/posts/${postId}`);
+        console.log("deletePostWithAPI -- POST RES FROM API: ", res);
+        // if(res.data.message==='deleted')
+        dispatch(deletePost(postId));
+      }
+      catch(error){
+          console.log("ERROR: ",error);
+      }
+    };
+}
+
+export const deletePost = (id) => {
 
     return {
         type:DELETE_POST,
-        payload: { id,post}
+        payload: { id }
     }
 }
 

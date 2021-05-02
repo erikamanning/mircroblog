@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux"
 import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '../reducers/actions'
 import { PostContext } from '../Post/Post'
-import { useHistory } from "react-router-dom"
 
 const CommentForm = () => {
 
@@ -12,6 +11,7 @@ const CommentForm = () => {
     const posts = useSelector(state=>state.posts);
     const post = posts[postId];
 
+    console.log('post: ', post)
 
     const INITIAL_FORM_DATA = {
         text:''
